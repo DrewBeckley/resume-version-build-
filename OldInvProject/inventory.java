@@ -171,7 +171,7 @@ public class inventory extends ConsoleProgram implements Runnable
 		};
 	}
 //printing methods********************************************************************
-//now it is the suppliers/consumers then use apply on the
+//now it is the suppliers/consumers then use apply on the 
 
 
 	public Supplier<String> CammandsList=()->Arrays.stream(Cammands).collect(Collectors.joining(", ","The cammands are:\n",""));
@@ -202,14 +202,8 @@ public class inventory extends ConsoleProgram implements Runnable
 	private Consumer<String>print=(text)->System.out.println(text);
 
 	public Supplier<String> TBD=()->"not implimented yet";
-
-	@Deprecated
-	public void IBDcall()
-	{
-		utilityPrint.newPage(10);
-		System.out.println(cammands());
-		
-	}
+	//tsting   to see how get git works
+	
 	//replace with stringBuffer
 	@Deprecated
 	private String cammands()
