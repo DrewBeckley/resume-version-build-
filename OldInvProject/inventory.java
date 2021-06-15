@@ -49,13 +49,22 @@ public class inventory extends ConsoleProgram implements Runnable
 	};
 	
 	
-	
+	public Supplier<String> TBD=()->"not implimented yet";
 	//c and p template
 	//public Supplier<String> undefined=()->
+	
+	
+//consumer section
+	
+	public BiConsumer<String,Double> addEntry=(name,amount)->{
+		entriesA.add(new Entries(name,amount));
+		System.out.println("You added "+name+" and set it to "+amount+".");
+	};
+	private BiConsumer<String,Double> fillEntry=(name,amount)->entriesA.add(new Entries(name,amount));
 
 	private Consumer<String>print=(text)->System.out.println(text);
 
-	public Supplier<String> TBD=()->"not implimented yet";
+	
 	
 	public void run()
 	{
@@ -64,14 +73,14 @@ public class inventory extends ConsoleProgram implements Runnable
 		if(true)
 		{
 			
-			int modeSwitchAction=0;
+			double i=0;
 			for(String n:testing)
 			{
-				addEntry(n,modeSwitchAction,false); 
-				modeSwitchAction++;
+				fillEntry.accept(n,i); 
+				i++;
 			}
 		}
-
+		//addEntry.accept("passed",4.5);
 		print.accept(CurrentInventory.get());
 		while(true)
 		{
@@ -82,7 +91,7 @@ public class inventory extends ConsoleProgram implements Runnable
 	}
 
 
-	//This is the current messy mtethod it works but 
+	//This is the current messy mtethod but it works 
 	//TBD are not impelimented yep
 	public void Checker(String tester)
 	{
@@ -90,6 +99,10 @@ public class inventory extends ConsoleProgram implements Runnable
 		var  linkedActions=new HashMap<String, Supplier<String>>();
 		linkedActions.put("IBD",IBDcall1);
 		linkedActions.put("logbook",TBD);
+		//Same idea as above but with consumers
+		var  linkedPrompts=new HashMap<String, Consumer<String>>();
+
+
 		
 		
 		
@@ -197,6 +210,7 @@ public class inventory extends ConsoleProgram implements Runnable
 
 	
 //add and remove method***************************************************************
+	@Depricated
 	public void addEntry(String food,boolean report)
 	{
 		ConsoleProgram stat=new ConsoleProgram();
@@ -212,7 +226,7 @@ public class inventory extends ConsoleProgram implements Runnable
 	
 	
 	
-	
+	@Depricated
 	public void addEntry(String name,double amount, boolean show)
 	{
 		entriesA.add(new Entries(name,amount));
@@ -229,8 +243,7 @@ public class inventory extends ConsoleProgram implements Runnable
 	
 	public void removeEntry()
 	{
-		try
-		{
+		try{
 			ConsoleProgram stat=new ConsoleProgram();
 			String in=stat.readLine("what do you want to remove:");
 			//System.out.println(entriesA);
@@ -239,11 +252,12 @@ public class inventory extends ConsoleProgram implements Runnable
 			entriesA.remove(i);
 			
 			System.out.println("You removed "+in+".");
-			}
-			
-			catch(ArrayIndexOutOfBoundsException ex){
-			System.out.println("can't find entry to delete");
 		}
+			
+			catch(ArrayIndexOutOfBoundsException ex)
+			{
+				System.out.println("can't find entry to delete");
+			}
 	}
 	
 	
