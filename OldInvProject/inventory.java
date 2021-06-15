@@ -202,20 +202,9 @@ public class inventory extends ConsoleProgram implements Runnable
 	private Consumer<String>print=(text)->System.out.println(text);
 
 	public Supplier<String> TBD=()->"not implimented yet";
-	//tsting   to see how get git works
 	
-	//replace with stringBuffer
-	@Deprecated
-	private String cammands()
-	{
-		// String cammand=Cammands[0];
-		// for(int i=1;i<Cammands.length;i++)
-		// {
-		// 	String extra=Cammands[i];
-		// 	cammand+=(", "+extra);
-		// }
-		return Arrays.stream(Cammands).collect(Collectors.joining(", ","The cammands are:\n",""));
-	}
+	
+	
 
 	public void invcall()
 	{
