@@ -27,7 +27,7 @@ public class inventory extends ConsoleProgram implements Runnable
 
 
 //printing methods********************************************************************
-//now it is the suppliers/consumers then use apply on the print consumer I had
+//now it is the suppliers/consumers then use apply on the print consumer I have had
 
 
 	public Supplier<String> CammandsList=()->Arrays.stream(Cammands).collect(Collectors.joining(", ","The cammands are:\n",""));
@@ -64,11 +64,11 @@ public class inventory extends ConsoleProgram implements Runnable
 		if(true)
 		{
 			
-			int x=0;
+			int modeSwitchAction=0;
 			for(String n:testing)
 			{
-				addEntry(n,x,false); 
-				x++;
+				addEntry(n,modeSwitchAction,false); 
+				modeSwitchAction++;
 			}
 		}
 
@@ -88,24 +88,22 @@ public class inventory extends ConsoleProgram implements Runnable
 	public void Checker(String tester)
 	{
 		
-		//simplyfy with anymatch 
 		boolean ismodeSwitch=Arrays.stream(mode).anyMatch(i->i.equals(tester));
 		
 		
 		//trying to use pairs for a dynamicicly solution and avoid the switch hunt 
 		//could shift printing out
 		var  linkedActions=new HashMap<String, Supplier<String>>();
-		
-		
 		linkedActions.put("IBD",IBDcall1);
 		linkedActions.put("logbook",TBD);
 
-		var x=linkedActions.containsKey(tester);
+		var modeSwitchAction=linkedActions.containsKey(tester);
 		//"invoke" the supplier 
-		if(x){
-			linkedActions.get(tester).get();
+		if(modeSwitchAction){
+			var action=linkedActions.get(tester);
+			//System.out.println("type of: "+action.getClass().getSimpleName());
 		}
-		//System.out.println("is a mode switch: "+x);
+		
 		switch(tester)
 		{
 			case "IBD":
@@ -172,7 +170,7 @@ public class inventory extends ConsoleProgram implements Runnable
 				break;
 			case 6:
 				//System.out.println("ok ok I will do it\njust let chetch my breath");
-				System.out.println(cammands());
+				System.out.println(CammandsList.get());
 
 				break;
 			case 7:
