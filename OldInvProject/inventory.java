@@ -97,7 +97,8 @@ public class inventory extends ConsoleProgram implements Runnable
 		boolean ismodeSwitch=Arrays.stream(mode).anyMatch(i->i.equals(tester));
 		if(ismodeSwitch)
 		{
-			modeSwitch(tester);
+			//right bellow
+			modeSwitch(tester,linkedActions);
 		}
 
 		boolean isValid=Arrays.stream(Cammands)
@@ -115,9 +116,10 @@ public class inventory extends ConsoleProgram implements Runnable
 			.collect(Collectors.toList()).indexOf(tester.toLowerCase());
 			//System.out.println(i);
 			call(i,tester);
+
 		}
 	}
-	private void modeSwitch(String tester) 
+	private void modeSwitch(String tester,HashMap<String, Supplier<String>> linkedActions) 
 	{		
 		var modeSwitchAction=linkedActions.containsKey(tester);
 		//"invoke" the supplier 
@@ -126,7 +128,7 @@ public class inventory extends ConsoleProgram implements Runnable
 			print.accept(action.get());
 			//System.out.println("type of: "+action.getClass().getSimpleName());
 		}
-	
+		//og one
 		switch(tester)
 		{
 			case "IBD":
