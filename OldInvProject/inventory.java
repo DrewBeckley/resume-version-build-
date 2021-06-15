@@ -64,8 +64,23 @@ public class inventory extends ConsoleProgram implements Runnable
 
 	private Consumer<String>print=(text)->System.out.println(text);
 
+	public BiConsumer<String> TBDCon=()->"not implimented yet";
 	
-	
+	//the double is just a dummy type soi can put it in a Biconsumer array 
+	private BiConsumer<String,Double> removeEntry=(dummy1,dummy2)->{
+		try{
+			ConsoleProgram stat=new ConsoleProgram();
+			String in=stat.readLine("what do you want to remove:");
+			//System.out.println(entriesA);
+			
+			int i=Arrays.asList(Cammands).indexOf(in);
+			entriesA.remove(i);
+			
+			System.out.println("You removed "+in+".");
+		}catch(ArrayIndexOutOfBoundsException ex){
+			System.out.println("can't find entry to delete");
+		}
+	};
 	public void run()
 	{
 		
@@ -93,14 +108,25 @@ public class inventory extends ConsoleProgram implements Runnable
 
 	//This is the current messy mtethod but it works 
 	//TBD are not impelimented yep
+	//ones with Con are consumers version
 	public void Checker(String tester)
 	{
+		var[] cammandsLCV=Arrays.stream(Cammands).map(String::toLowerCase);
+		BiConsumer<String>[] doWhat={addEntry,removeEntry,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon};
+		//"Add", "Remove", "Entries","Entry","ammounts","ammount","all cammands","change","log","check","inv"
 		//trying to use pairs for a dynamicicly solution and avoid the switch hunt 
 		var  linkedActions=new HashMap<String, Supplier<String>>();
 		linkedActions.put("IBD",IBDcall1);
 		linkedActions.put("logbook",TBD);
 		//Same idea as above but with consumers
 		var  linkedPrompts=new HashMap<String, Consumer<String>>();
+		for(int i=0;i<cammandsLCV.length;i++)
+		{
+			linkedPrompts.put(cammandsLCV[i],doWhat[i]);
+		}
+		
+		
+		
 
 
 		
@@ -132,6 +158,9 @@ public class inventory extends ConsoleProgram implements Runnable
 
 		}
 	}
+	
+	
+	
 	private void modeSwitch(String tester,HashMap<String, Supplier<String>> linkedActions) 
 	{		
 		var modeSwitchAction=linkedActions.containsKey(tester);
@@ -254,10 +283,10 @@ public class inventory extends ConsoleProgram implements Runnable
 			System.out.println("You removed "+in+".");
 		}
 			
-			catch(ArrayIndexOutOfBoundsException ex)
-			{
-				System.out.println("can't find entry to delete");
-			}
+		catch(ArrayIndexOutOfBoundsException ex)
+		{
+			System.out.println("can't find entry to delete");
+		}
 	}
 	
 	
