@@ -1,0 +1,77 @@
+//saving before String builder
+			buffer.write("file name:\n"+listOfRecipeList);
+			buffer.newLine();
+			buffer.append("Content list:");
+			buffer.newLine();
+			int i=0;
+			for(String n:listOfRecipeList)
+			{
+				buffer.write(listOfContentList.get(i).replaceAll("\n","/n")+"<<end>>");
+				i++;
+			}
+			//*/
+
+
+
+			/*
+		try{
+			BufferedReader test=new BufferedReader(new FileReader(fLocation));
+			String[] temp={};
+			//reader print setup
+			String num="";
+			while((num=test.readLine())!=null)
+			{  
+				//String tester=test.readLine();
+				//System.out.println(num);
+				switch(num)
+				{
+				case "file name:":
+					num=test.readLine();
+					String sub=num.substring(1,num.length()-1);
+					//System.out.println(sub);
+					temp=sub.split(", ");
+					listOfRecipeList.clear();
+					int i=0;
+					for(String n: temp)
+					{
+						//if(!listOfRecipeList.get(i).equals(""))
+						//{
+							listOfRecipeList.add(n);
+						//}
+						//else
+						//{
+							//System.out.println(listOfRecipeList.get(i)+'x');
+							//listOfRecipeList.add(n);
+						//}
+						i++;
+					}
+					break;
+				case "Content list:":
+					num=test.readLine().replaceAll("/n","\n");
+					String consub=num.substring(0,num.length()-7);
+					//System.out.println(consub);
+					temp=consub.split("<<end>>");
+					listOfContentList.clear();
+					for(String n: temp)
+					{
+						listOfContentList.add(n);
+					}
+					break;
+				};
+			}
+			test.close();
+			System.out.println("done reading file mem");
+		}
+		catch(Exception ex)
+		{
+			for(String n:listOfRecipeList)
+			{
+				listOfContentList.add("x");
+			}
+			save_entry();
+			//bringUp();
+			//System.out.println(ex+"in load_Entry");
+			
+		}//*/
+
+			

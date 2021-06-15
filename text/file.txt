@@ -1,0 +1,398 @@
+
+import javax.swing.*;
+import java.util.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+////import java.util.ArrayList;
+import java.util.Arrays;
+public class file extends MyProgram implements ActionListener
+{
+	String Name="";
+	String content="";
+	private  JTextArea entryArea;
+	private  JFrame fileS;
+	//private String[] t={"Testlist","hi"};
+	ArrayList<String>listOfRecipeList=new ArrayList<String>();
+	ArrayList<String>listOfContentList=new ArrayList<String>();
+	private  JList displayList;
+	JTextField new_file_entry;
+	//buttons
+	private JButton open_File;
+	JButton inv_Button;
+    	JButton calculator_Mode;
+	JButton view_Button;
+	JButton new_File;
+	JButton delete_Button;
+	JLabel instrtion;
+	int selection;
+	//constructor needs name(String)ccontent(String)
+	public file(String Name,String content)
+	{
+		this.Name=Name;
+		this.content=content;
+		listOfRecipeList.add(Name);
+		listOfContentList.add(content);
+	}
+	public file()
+	{
+
+	}
+
+	
+	
+
+
+	//this method calls up the file select menu
+	public static void callUp()
+	{
+		
+	}
+
+
+
+	//variables
+	int sizeX=100;
+	int sizeY=80;
+	int margin=10;
+	int ButtonY=273;	
+	private void bringUp()
+	{
+		
+		
+		//frame.setVisible(false);
+		//frame.dispose();
+		//listOfContentList.remove(); 
+		//listOfRecipeList.remove();
+		
+		//load method
+		load_Entry();
+		//post Testlist
+		try{
+			System.out.println(fileS.isAlwaysOnTop());
+			if(fileS.isActive()==true)
+			{
+				fileS.setVisible(true);
+				fileS.setEnabled(true);
+				fileS.setAlwaysOnTop(true);
+			}
+		}
+		catch(NullPointerException e){
+		fileS=new JFrame();
+		fileS.setSize(400, 400);	
+		fileS.setLayout(null); 
+		fileS.setVisible(true);
+		fileS.setAlwaysOnTop(true);
+		}
+		//Jlist
+		displayList=new JList(listOfRecipeList.toArray());
+		displayList.setBounds(margin,margin+30,250,200);
+		
+		fileS.add(displayList);
+		
+		//new file and Delete
+		new_File=new JButton("new file");
+		new_File.setBounds(margin,ButtonY+50,100,40);
+		new_File.addActionListener(this);
+		fileS.add(new_File);
+		//Delete
+		delete_Button=new JButton("delete");
+		delete_Button.setBounds(margin+110,ButtonY+50,100,40);
+		delete_Button.addActionListener(this);
+		fileS.add(delete_Button);
+		
+		
+		//button for selection of file to edit
+		open_File=new JButton("open");
+		open_File.setBounds(margin,ButtonY,100,40);
+		open_File.addActionListener(this);
+		fileS.add(open_File);
+		
+		
+		//nonedit view
+		view_Button=new JButton("veiw");
+		view_Button.setBounds(margin+110,ButtonY,100,40);
+		view_Button.addActionListener(this);
+		fileS.add(view_Button);
+		
+		
+		//label
+		instrtion=new JLabel("select your recipe");
+		instrtion.setBounds(margin,margin,300,40);
+		//instrtion.setTextColor(Color.red);
+		fileS.add(instrtion);
+		
+		//critical function button
+		
+		//button 1
+		inv_Button=new JButton("Inventory");
+		inv_Button.setBounds(250,275 ,sizeX+30, sizeY);
+		inv_Button.addActionListener(this);
+		fileS.add(inv_Button);
+		
+		//button 2
+		calculator_Mode=new JButton("calculator");
+        	calculator_Mode.setBounds(250,320 ,sizeX+30, sizeY);
+		calculator_Mode.addActionListener(this);
+		fileS.add(calculator_Mode);
+		//buttons
+		
+		fileS.repaint();
+		//displayList.addElement("test");
+		
+		
+	}
+		
+	
+	
+	
+	
+	//activly editing a file
+	private void activeFile(int sel,boolean canEdit)
+	{
+		//fileS.removeAll();
+		fileS.remove(open_File);
+		fileS.remove(displayList);
+		fileS.remove(view_Button);
+		fileS.remove(new_File);
+		fileS.remove(delete_Button);
+		//fileS.remove(new_);
+		//refresh screen
+		fileS.validate();
+		fileS.repaint();
+
+		//changing label text
+		instrtion.setText("You are editing: "+listOfRecipeList.get(selection));
+		
+
+		entryArea=new JTextArea();
+		entryArea.setBounds(margin,margin+30,250,300);
+		//"ingredients:\n\n\ninstructons:"
+		try{
+			entryArea.setText(listOfContentList.get(selection));
+			entryArea.setEditable(canEdit);
+			//entryArea.setAutoscrolls(true);
+			//entryArea.getAutoscrolls();
+			fileS.add(entryArea);
+		}catch(IndexOutOfBoundsException e){
+			System.out.println("error finding selection");
+			System.out.println(selection);
+			System.out.println(listOfContentList.size());
+			System.out.println(e);
+			fileS.dispose();
+			callUp();
+		}
+
+	}		
+	//where action are Performed
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource()==inv_Button)
+		{
+			try{
+				String in=entryArea.getText();
+				//
+				String t="";
+				
+				//.replaceAll("\n", "\n");
+				//char test
+				char[] te=in.toCharArray();
+				for(char n:te)
+				{	
+					String con="";
+					if(n=='\n')
+					{
+					System.out.println(n+" yep theres a new line");
+					con="/n";
+					}
+					else
+					{
+					System.out.println(n);
+					con=Character.toString(n);
+					}
+					t=t+con;
+				}
+				//
+				listOfContentList.set(selection,t);
+				save_entry();
+				System.out.print(t);
+			}catch(NullPointerException ex){
+			}finally{
+				fileS.setVisible(false);
+				fileS.setEnabled(false);
+				frame.dispose();
+				pullup_Inv();
+				frame.setAlwaysOnTop(true);
+				fileS.dispose();
+				fileS.revalidate();
+				
+			}
+		}
+		if(e.getSource()==open_File)
+		{
+			if(displayList.getSelectedIndex()!=-1)
+			{
+				int select;
+				select=displayList.getSelectedIndex();
+				selection=select;
+				activeFile(select,true);
+				//open_File.setText(""+select);
+				
+			}
+			
+		}
+		//this is for a new file
+		if(e.getSource()==new_File)
+		{
+			
+			instrtion.setText("name your new file");
+			//new_File.setText("Create");
+			//textfeild appears
+			new_file_entry=new JTextField();
+			new_file_entry.setBounds(10,247,100,20);
+			new_file_entry.addActionListener(this);
+			fileS.add(new_file_entry);
+			fileS.repaint();
+			
+		}
+		//textfeild
+		if(e.getSource()==new_file_entry)
+		{
+			
+			String imput=new_file_entry.getText();
+			System.out.println(imput);
+			listOfRecipeList.add(imput);
+			listOfContentList.add("text here");
+			save_entry();
+			//fileS.dispose();
+			//callUp();
+			displayList.setListData(listOfRecipeList.toArray());
+			fileS.repaint();
+			/*
+			load_Entry();
+			fileS.revalidate();
+			fileS.repaint();
+			
+
+
+
+			
+		}
+		//this button is for deleteing
+		if(e.getSource()==delete_Button)
+		{
+			if(displayList.getSelectedIndex()!=-1)
+			{
+				
+				int select;
+				select=displayList.getSelectedIndex();
+				listOfRecipeList.remove(select);
+				listOfContentList.remove(select);
+				save_entry();
+				displayList.setListData(listOfRecipeList.toArray());
+				fileS.repaint();
+				
+
+
+			}
+		}
+		if(e.getSource()==view_Button)
+		{
+			if(displayList.getSelectedIndex()!=-1)
+			{
+				int select;
+				select=displayList.getSelectedIndex();
+				activeFile(select,false);
+				//open_File.setText(""+select);
+				
+			}
+			
+		}
+
+
+	}
+	private void save_entry()
+	{
+		
+		try{
+			BufferedWriter buffer = new BufferedWriter(new FileWriter("Data.txt"));
+			//saving
+			buffer.write("file name:\n"+listOfRecipeList);
+			buffer.newLine();
+			buffer.append("Content list:");
+			buffer.newLine();
+			int i=0;
+			for(String n:listOfRecipeList)
+			{
+				buffer.write(listOfContentList.get(i).replaceAll("\n","/n")+"<<end>>");
+				i++;
+			}
+			//buffer.write();
+			
+			
+			
+			buffer.close();
+		}catch(Exception ex){
+			System.out.println("Error in save");
+			System.out.println(ex);
+		};
+		
+	}
+	
+	
+	
+	private void load_Entry()
+	{
+		try{
+			BufferedReader test=new BufferedReader(new FileReader("Data.txt"));
+			String[] temp={};
+			//reader print setup
+			String num="";
+			while((num=test.readLine())!=null)
+			{  
+				//String tester=test.readLine();
+				//System.out.println(num);
+				switch(num)
+				{
+				case "file name:":
+					num=test.readLine();
+					String sub=num.substring(1,num.length()-1);
+					//System.out.println(sub);
+					temp=sub.split(", ");
+					listOfRecipeList.clear();
+					for(String n: temp)
+					{
+						listOfRecipeList.add(n);
+					}
+					break;
+				case "Content list:":
+					num=test.readLine().replaceAll("/n","\n");
+					String consub=num.substring(0,num.length()-7);
+					//System.out.println(consub);
+					temp=consub.split("<<end>>");
+					listOfContentList.clear();
+					for(String n: temp)
+					{
+						listOfContentList.add(n);
+					}
+					break;
+				};
+			}
+			test.close();
+			System.out.println("done reading");
+		}
+		catch(Exception ex)
+		{
+			for(String n:listOfRecipeList)
+			{
+				listOfContentList.add("x");
+			}
+			save_entry();
+			//bringUp();
+			//System.out.println(ex+"in load_Entry");
+			
+		}
+	}
+
+	
+}*/

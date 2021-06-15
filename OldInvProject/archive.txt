@@ -1,0 +1,16 @@
+this was the old print line divider
+		// String skips="";	
+		// String space=line;
+		// for(int i=0;i<length;i++)
+		// {
+		// 	skips=skips+space;
+		// }
+		
+new line divider 
+		String skips="";
+		String space="\n";
+		for(int i=0;i<lines;i++)
+		{
+			skips=skips+space;
+		}
+both now use repeat form the string class

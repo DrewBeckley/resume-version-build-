@@ -1,0 +1,9 @@
+
+	main_Frame.addWindowListener(new java.awt.event.WindowAdapter() 
+	{
+		public void windowClosing(java.awt.event.WindowEvent e) {
+			System.out.println("hi i am closing");
+			System.exit(0);
+		}
+	});
+	for future plans*/
