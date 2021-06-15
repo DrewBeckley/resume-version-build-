@@ -73,7 +73,6 @@ public class inventory extends ConsoleProgram implements Runnable
 		}
 
 		print.accept(CurrentInventory.get());
-		//System.out.print(IBDcall1);
 		while(true)
 		{
 			String ok=readLine("what do you want me to do: ");
@@ -83,40 +82,24 @@ public class inventory extends ConsoleProgram implements Runnable
 	}
 
 
-
+	//This is the current messy mtethod it works but 
 	//TBD are not impelimented yep
 	public void Checker(String tester)
 	{
-		
-		boolean ismodeSwitch=Arrays.stream(mode).anyMatch(i->i.equals(tester));
-		
-		
 		//trying to use pairs for a dynamicicly solution and avoid the switch hunt 
-		//could shift printing out
 		var  linkedActions=new HashMap<String, Supplier<String>>();
 		linkedActions.put("IBD",IBDcall1);
 		linkedActions.put("logbook",TBD);
-
-		var modeSwitchAction=linkedActions.containsKey(tester);
-		//"invoke" the supplier 
-		if(modeSwitchAction){
-			var action=linkedActions.get(tester);
-			//System.out.println("type of: "+action.getClass().getSimpleName());
-		}
 		
-		switch(tester)
+		
+		
+		
+		boolean ismodeSwitch=Arrays.stream(mode).anyMatch(i->i.equals(tester));
+		if(ismodeSwitch)
 		{
-			case "IBD":
-				//System.out.println("IBD popup");
-				System.out.println(IBDcall1.get());
-				break;
-			case "logbook":
-				System.out.println("add mode");
-				break;
-			default:
-				break;
-			
-		};
+			modeSwitch(tester);
+		}
+
 		boolean isValid=Arrays.stream(Cammands)
 		.map(String::toLowerCase)
 		.anyMatch(i->i.equals(tester.toLowerCase()));
@@ -134,16 +117,37 @@ public class inventory extends ConsoleProgram implements Runnable
 			call(i,tester);
 		}
 	}
-		
+	private void modeSwitch(String tester) 
+	{		
+		var modeSwitchAction=linkedActions.containsKey(tester);
+		//"invoke" the supplier 
+		if(modeSwitchAction){
+			var action=linkedActions.get(tester);
+			print.accept(action.get());
+			//System.out.println("type of: "+action.getClass().getSimpleName());
+		}
+	
+		switch(tester)
+		{
+			case "IBD":
+				//System.out.println("IBD popup");
+				System.out.println(IBDcall1.get());
+				break;
+			case "logbook":
+				System.out.println("add mode");
+				break;
+			default:
+				break;
+			
+		};
+	}
 	
 
-	
-
-	//use the same trick  with hashmap
+	//use the same trick  with hashmap bellow
 	
 	
 	
-	//public static Function<Integer, > getAmount
+	//public static Function<Integer, ?> getAmount
 	//try to use statagy or factory pattern, or use function 
 	public void call(int printCode, String passedOn)
 	{
