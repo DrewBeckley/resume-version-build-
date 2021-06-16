@@ -64,7 +64,9 @@ public class inventory extends ConsoleProgram implements Runnable
 
 	private Consumer<String>print=(text)->System.out.println(text);
 
-	public BiConsumer<String> TBDCon=()->"not implimented yet";
+	public BiConsumer<String,Double> TBDCon=(i,j)->{
+		System.out.println("not implimented yet"+i+j);
+	};
 	
 	//the double is just a dummy type soi can put it in a Biconsumer array 
 	private BiConsumer<String,Double> removeEntry=(dummy1,dummy2)->{
@@ -95,7 +97,6 @@ public class inventory extends ConsoleProgram implements Runnable
 				i++;
 			}
 		}
-		//addEntry.accept("passed",4.5);
 		print.accept(CurrentInventory.get());
 		while(true)
 		{
@@ -111,18 +112,18 @@ public class inventory extends ConsoleProgram implements Runnable
 	//ones with Con are consumers version
 	public void Checker(String tester)
 	{
-		var[] cammandsLCV=Arrays.stream(Cammands).map(String::toLowerCase);
-		BiConsumer<String>[] doWhat={addEntry,removeEntry,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon};
+		String[] cammandsLCV=Arrays.stream(Cammands).map(String::toLowerCase).toArray(String[]::new);
+		//BiConsumer<String, Double>[]  doWhat=Arrays.of(addEntry,removeEntry,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon);
 		//"Add", "Remove", "Entries","Entry","ammounts","ammount","all cammands","change","log","check","inv"
 		//trying to use pairs for a dynamicicly solution and avoid the switch hunt 
 		var  linkedActions=new HashMap<String, Supplier<String>>();
 		linkedActions.put("IBD",IBDcall1);
 		linkedActions.put("logbook",TBD);
 		//Same idea as above but with consumers
-		var  linkedPrompts=new HashMap<String, Consumer<String>>();
+		var  linkedPrompts=new HashMap<String, BiConsumer<String,Double>>();
 		for(int i=0;i<cammandsLCV.length;i++)
 		{
-			linkedPrompts.put(cammandsLCV[i],doWhat[i]);
+			//linkedPrompts.put(cammandsLCV[i],doWhat[i]);
 		}
 		
 		
@@ -200,7 +201,7 @@ public class inventory extends ConsoleProgram implements Runnable
 		{
 			//"Add"0, "Remove"1, ("Entries","Entry")2,3,("ammounts","ammount")4,5,"all cammands"6
 			case 0:
-				addEntry(passedOn,true);
+				addEntry.accept(passedOn,2.0);
 				//System.out.println("watch me add 1+5");
 				break;
 			case 1:
@@ -239,30 +240,30 @@ public class inventory extends ConsoleProgram implements Runnable
 
 	
 //add and remove method***************************************************************
-	@Depricated
-	public void addEntry(String food,boolean report)
-	{
-		ConsoleProgram stat=new ConsoleProgram();
-		String file=stat.readLine("name of the item: ");
-		double in=stat.readDouble("set initial vaule: ");
-		entriesA.add(new Entries(file,in));
+	// @Deprecated
+	// public void addEntry(String food,boolean report)
+	// {
+	// 	ConsoleProgram stat=new ConsoleProgram();
+	// 	String file=stat.readLine("name of the item: ");
+	// 	double in=stat.readDouble("set initial vaule: ");
+	// 	entriesA.add(new Entries(file,in));
 		
 		
-		if(report){
-			System.out.println("You added "+file+" and set it to "+in+".");
-		}
-	}
+	// 	if(report){
+	// 		System.out.println("You added "+file+" and set it to "+in+".");
+	// 	}
+	// }
 	
 	
 	
-	@Depricated
-	public void addEntry(String name,double amount, boolean show)
-	{
-		entriesA.add(new Entries(name,amount));
-		if(show){
-			System.out.println("You added "+name+" and set it to "+amount+".");
-		 }
-	}
+	// @Deprecated
+	// public void addEntry(String name,double amount, boolean show)
+	// {
+	// 	entriesA.add(new Entries(name,amount));
+	// 	if(show){
+	// 		System.out.println("You added "+name+" and set it to "+amount+".");
+	// 	 }
+	// }
 
 	
 	
