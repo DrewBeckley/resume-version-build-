@@ -115,7 +115,9 @@ public class inventory extends ConsoleProgram implements Runnable
 	public void Checker(String tester)
 	{
 		ToIntFunction<String> putWhere=(find)->Arrays.stream(Cammands).collect(Collectors.toList()).indexOf(find);
-		
+
+		//ToIntFunction<String> LCMatch=(find)->Arrays.stream(Cammands).map(String::toLowerCase).collect(Collectors.toList()).indexOf(tester.toLowerCase());
+		//l
 		String[] cammandsLCV=Arrays.stream(Cammands).map(String::toLowerCase).toArray(String[]::new);
 		
 		ArrayList<BiConsumer<String,Double>>  doWhat=new ArrayList<BiConsumer<String,Double>>(Cammands.length); 
@@ -131,25 +133,12 @@ public class inventory extends ConsoleProgram implements Runnable
 		// doWhat.add(putWhere.applyAsInt("all cammands"),TBDCon);
 		// doWhat.add(putWhere.applyAsInt("all cammands"),TBDCon);
 		//"Add", "Remove", "Entries","Entry","ammounts","ammount","all cammands","change","log","check","inv"
-		//trying to use pairs for a dynamicly solution and avoid the switch hunt 
-		var  linkedActions=new HashMap<String, Supplier<String>>();
-		linkedActions.put("IBD",IBDcall1);
-		linkedActions.put("logbook",TBD);
-		//Same idea as above but with consumers
-		var  linkedPrompts=new HashMap<String, BiConsumer<String,Double>>();
-		for(int i=0;i<cammandsLCV.length;i++)
-		{
-			//linkedPrompts.put(cammandsLCV[i],doWhat.get(i));
-		}
+		//trying to use pairs/Lists for a dynamicly solution and avoid the switch hunt 
 		
-
-		boolean ismodeSwitch=Arrays.stream(mode).anyMatch(i->i.equals(tester));
-		if(ismodeSwitch)
-		{
-			//right bellow
-			modeSwitch(tester,linkedActions);
-		}
-
+		//Same idea as above but with consumers
+		//var  linkedPrompts=new HashMap<String, BiConsumer<String,Double>>();
+		//right bellow
+		modeSwitch(tester);
 		boolean isValid=Arrays.stream(Cammands)
 		.map(String::toLowerCase)
 		.anyMatch(i->i.equals(tester.toLowerCase()));
@@ -171,29 +160,39 @@ public class inventory extends ConsoleProgram implements Runnable
 	
 	
 	
-	private void modeSwitch(String tester,HashMap<String, Supplier<String>> linkedActions) 
+	private void modeSwitch(String tester,
+	//HashMap<String, Supplier<String>> linkedActions
+	 ) 
 	{		
-		var modeSwitchAction=linkedActions.containsKey(tester);
-		//"invoke" the supplier 
-		if(modeSwitchAction){
-			var action=linkedActions.get(tester);
-			print.accept(action.get());
-			//System.out.println("type of: "+action.getClass().getSimpleName());
-		}
-		//og one
-		switch(tester)
+		
+		boolean ismodeSwitch=Arrays.stream(mode).anyMatch(i->i.equals(tester));
+		if(ismodeSwitch)
 		{
-			case "IBD":
-				//System.out.println("IBD popup");
-				System.out.println(IBDcall1.get());
-				break;
-			case "logbook":
-				System.out.println("add mode");
-				break;
-			default:
-				break;
-			
-		};
+			var  linkedActions=new HashMap<String, Supplier<String>>();
+			linkedActions.put("IBD",IBDcall1);
+			linkedActions.put("logbook",TBD);
+			var modeSwitchAction=linkedActions.containsKey(tester);
+			//"invoke" the supplier 
+			if(modeSwitchAction){
+				var action=linkedActions.get(tester);
+				print.accept(action.get());
+				//System.out.println("type of: "+action.getClass().getSimpleName());
+			}
+			//one from the original 
+			switch(tester)
+			{
+				case "IBD":
+					//System.out.println("IBD popup");
+					System.out.println(IBDcall1.get());
+					break;
+				case "logbook":
+					System.out.println("add mode");
+					break;
+				default:
+					break;
+				
+			};
+		}
 	}
 	
 
