@@ -55,20 +55,22 @@ public class inventory extends ConsoleProgram implements Runnable
 	
 	
 //consumer section
-	
+	private BiConsumer<String,Double> fillEntry=(name,amount)->entriesA.add(new Entries(name,amount));
+	//private BiConsumer<String,Double> Entryrequests=(name,amount)->{	};
 	public BiConsumer<String,Double> addEntry=(name,amount)->{
-		entriesA.add(new Entries(name,amount));
+		fillEntry.accept(name,amount);
 		System.out.println("You added "+name+" and set it to "+amount+".");
 	};
-	private BiConsumer<String,Double> fillEntry=(name,amount)->entriesA.add(new Entries(name,amount));
+	
+	
 
 	private Consumer<String>print=(text)->System.out.println(text);
 
 	public BiConsumer<String,Double> TBDCon=(i,j)->{
-		System.out.println("not implimented yet"+i+j);
+		System.out.println("not implimented yet. J is"+j+"iand I is"+ i);
 	};
 	
-	//the double is just a dummy type soi can put it in a Biconsumer array 
+	//the double is just a dummy type so I can put it in a Biconsumer array 
 	private BiConsumer<String,Double> removeEntry=(dummy1,dummy2)->{
 		try{
 			ConsoleProgram stat=new ConsoleProgram();
@@ -76,10 +78,11 @@ public class inventory extends ConsoleProgram implements Runnable
 			//System.out.println(entriesA);
 			
 			int i=Arrays.asList(Cammands).indexOf(in);
+			System.out.println(i+" removed");
 			entriesA.remove(i);
 			
 			System.out.println("You removed "+in+".");
-		}catch(ArrayIndexOutOfBoundsException ex){
+		}catch(IndexOutOfBoundsException ex){
 			System.out.println("can't find entry to delete");
 		}
 	};
@@ -116,8 +119,8 @@ public class inventory extends ConsoleProgram implements Runnable
 	{
 		ToIntFunction<String> putWhere=(find)->Arrays.stream(Cammands).collect(Collectors.toList()).indexOf(find);
 
-		//ToIntFunction<String> LCMatch=(find)->Arrays.stream(Cammands).map(String::toLowerCase).collect(Collectors.toList()).indexOf(tester.toLowerCase());
-		//l
+		ToIntFunction<String> LCMatchIndex=(find)->Arrays.stream(Cammands).map(String::toLowerCase).collect(Collectors.toList()).indexOf(tester.toLowerCase());
+		
 		String[] cammandsLCV=Arrays.stream(Cammands).map(String::toLowerCase).toArray(String[]::new);
 		
 		ArrayList<BiConsumer<String,Double>>  doWhat=new ArrayList<BiConsumer<String,Double>>(Cammands.length); 
@@ -126,12 +129,12 @@ public class inventory extends ConsoleProgram implements Runnable
 		doWhat.add(putWhere.applyAsInt("Entries"),TBDCon);
 		doWhat.add(putWhere.applyAsInt("Entry"),TBDCon);
 		doWhat.add(putWhere.applyAsInt("ammounts"),TBDCon);
-		doWhat.add(putWhere.applyAsInt("amount"),TBDCon);
-		// doWhat.add(putWhere.applyAsInt("all cammands"),TBDCon);
-		// doWhat.add(putWhere.applyAsInt("all cammands"),TBDCon);
-		// doWhat.add(putWhere.applyAsInt("all cammands"),TBDCon);
-		// doWhat.add(putWhere.applyAsInt("all cammands"),TBDCon);
-		// doWhat.add(putWhere.applyAsInt("all cammands"),TBDCon);
+		doWhat.add(putWhere.applyAsInt("ammount"),TBDCon);
+		doWhat.add(putWhere.applyAsInt("all cammands"),TBDCon);
+		doWhat.add(putWhere.applyAsInt("change"),TBDCon);
+		doWhat.add(putWhere.applyAsInt("log"),TBDCon);
+		doWhat.add(putWhere.applyAsInt("check"),TBDCon);
+		doWhat.add(putWhere.applyAsInt("inv"),TBDCon);
 		//"Add", "Remove", "Entries","Entry","ammounts","ammount","all cammands","change","log","check","inv"
 		//trying to use pairs/Lists for a dynamicly solution and avoid the switch hunt 
 		
@@ -142,9 +145,6 @@ public class inventory extends ConsoleProgram implements Runnable
 		boolean isValid=Arrays.stream(Cammands)
 		.map(String::toLowerCase)
 		.anyMatch(i->i.equals(tester.toLowerCase()));
-		//System.out.println(isValid);
-		
-		
 		if(isValid)
 		{
 			//System.out.println(tester);//passed
@@ -153,14 +153,22 @@ public class inventory extends ConsoleProgram implements Runnable
 			.map(String::toLowerCase) 
 			.collect(Collectors.toList()).indexOf(tester.toLowerCase());
 			//System.out.println(i);
-			call(i,tester);
-
+			//call(i,tester); //outdated way
+			//This is tempary, will move into the add Enrty method later
+			if(i!=0){
+				doWhat.get(i).accept("",2.0);
+			}else{
+				double in=2.0;
+				String file=readLine("name of the item: ");		
+				in=readDouble("set initial vaule: ");
+				doWhat.get(i).accept(file,in);
+			}		
 		}
 	}
 	
 	
 	
-	private void modeSwitch(String tester,
+	private void modeSwitch(String tester
 	//HashMap<String, Supplier<String>> linkedActions
 	 ) 
 	{		
