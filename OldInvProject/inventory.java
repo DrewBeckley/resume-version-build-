@@ -83,6 +83,8 @@ public class inventory extends ConsoleProgram implements Runnable
 			System.out.println("can't find entry to delete");
 		}
 	};
+	
+	
 	public void run()
 	{
 		
@@ -112,10 +114,24 @@ public class inventory extends ConsoleProgram implements Runnable
 	//ones with Con are consumers version
 	public void Checker(String tester)
 	{
+		ToIntFunction<String> putWhere=(find)->Arrays.stream(Cammands).collect(Collectors.toList()).indexOf(find);
+		
 		String[] cammandsLCV=Arrays.stream(Cammands).map(String::toLowerCase).toArray(String[]::new);
-		//BiConsumer<String, Double>[]  doWhat=Arrays.of(addEntry,removeEntry,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon,TBDCon);
+		
+		ArrayList<BiConsumer<String,Double>>  doWhat=new ArrayList<BiConsumer<String,Double>>(Cammands.length); 
+		doWhat.add(putWhere.applyAsInt("Add"),addEntry);
+		doWhat.add(putWhere.applyAsInt("Remove"),removeEntry);
+		doWhat.add(putWhere.applyAsInt("Entries"),TBDCon);
+		doWhat.add(putWhere.applyAsInt("Entry"),TBDCon);
+		doWhat.add(putWhere.applyAsInt("ammounts"),TBDCon);
+		doWhat.add(putWhere.applyAsInt("amount"),TBDCon);
+		// doWhat.add(putWhere.applyAsInt("all cammands"),TBDCon);
+		// doWhat.add(putWhere.applyAsInt("all cammands"),TBDCon);
+		// doWhat.add(putWhere.applyAsInt("all cammands"),TBDCon);
+		// doWhat.add(putWhere.applyAsInt("all cammands"),TBDCon);
+		// doWhat.add(putWhere.applyAsInt("all cammands"),TBDCon);
 		//"Add", "Remove", "Entries","Entry","ammounts","ammount","all cammands","change","log","check","inv"
-		//trying to use pairs for a dynamicicly solution and avoid the switch hunt 
+		//trying to use pairs for a dynamicly solution and avoid the switch hunt 
 		var  linkedActions=new HashMap<String, Supplier<String>>();
 		linkedActions.put("IBD",IBDcall1);
 		linkedActions.put("logbook",TBD);
@@ -123,17 +139,10 @@ public class inventory extends ConsoleProgram implements Runnable
 		var  linkedPrompts=new HashMap<String, BiConsumer<String,Double>>();
 		for(int i=0;i<cammandsLCV.length;i++)
 		{
-			//linkedPrompts.put(cammandsLCV[i],doWhat[i]);
+			//linkedPrompts.put(cammandsLCV[i],doWhat.get(i));
 		}
 		
-		
-		
 
-
-		
-		
-		
-		
 		boolean ismodeSwitch=Arrays.stream(mode).anyMatch(i->i.equals(tester));
 		if(ismodeSwitch)
 		{
