@@ -76,10 +76,8 @@ public class inventory extends ConsoleProgram implements Runnable
 		try{
 			String in=readLine("what do you want to remove:");
 			//System.out.println(entriesA);
-			
-			//int i=Arrays.asList(entriesA).indexOf(in);
 			int i=entriesA.stream().map(Entries::getEntry).collect(Collectors.toList()).indexOf(in);
-			System.out.println(i+" removed");
+			//System.out.println(i+" removed");
 			entriesA.remove(i);
 			
 			System.out.println("You removed "+in+".");
