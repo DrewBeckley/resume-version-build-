@@ -73,11 +73,10 @@ public class inventory extends ConsoleProgram implements Runnable
 	//the double is just a dummy type so I can put it in a Biconsumer array 
 	private BiConsumer<String,Double> removeEntry=(dummy1,dummy2)->{
 		try{
-			ConsoleProgram stat=new ConsoleProgram();
-			String in=stat.readLine("what do you want to remove:");
+			String in=readLine("what do you want to remove:");
 			//System.out.println(entriesA);
 			
-			int i=Arrays.asList(Cammands).indexOf(in);
+			int i=Arrays.asList(entriesA).indexOf(in);
 			System.out.println(i+" removed");
 			entriesA.remove(i);
 			
