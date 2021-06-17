@@ -42,6 +42,7 @@ public class inventory extends ConsoleProgram implements Runnable
 		int i=0;
 		for (Entries n:entriesA)
 		{
+			//entriesA.forEach()
 			buffer.append(n+utilityPrint.flatline(19,"_")+Entries.amountsArray.get(i)+"\n");
 			i++;
 		}
@@ -76,7 +77,8 @@ public class inventory extends ConsoleProgram implements Runnable
 			String in=readLine("what do you want to remove:");
 			//System.out.println(entriesA);
 			
-			int i=Arrays.asList(entriesA).indexOf(in);
+			//int i=Arrays.asList(entriesA).indexOf(in);
+			int i=entriesA.stream().map(Entries::getEntry).collect(Collectors.toList()).indexOf(in);
 			System.out.println(i+" removed");
 			entriesA.remove(i);
 			
@@ -138,7 +140,7 @@ public class inventory extends ConsoleProgram implements Runnable
 		//trying to use pairs/Lists for a dynamicly solution and avoid the switch hunt 
 		
 		//Same idea as above but with consumers
-		//var  linkedPrompts=new HashMap<String, BiConsumer<String,Double>>();
+		//var linkedPrompts=new HashMap<String, BiConsumer<String,Double>>();
 		//right bellow
 		modeSwitch(tester);
 		boolean isValid=Arrays.stream(Cammands)
@@ -205,8 +207,8 @@ public class inventory extends ConsoleProgram implements Runnable
 
 	//use the same trick  with hashmap bellow
 	
-	
-	
+	@Deprecated
+	//keep but just because I may need a fall back when doing a disign overhall
 	//public static Function<Integer, ?> getAmount
 	//try to use statagy or factory pattern, or use function 
 	public void call(int printCode, String passedOn)
