@@ -27,7 +27,7 @@ class startup implements Runnable
 		
 		
 		
-		System.out.println(  "Thread " + Thread.currentThread().getId() + " is running");
+		//System.out.println(  "Thread " + Thread.currentThread().getId() + " is running");
 		//*/
 		//System.out.print("");
 			//Stream.iterate(50,i->i++).limit(50).forEach(i->System.out.println(i--));
@@ -37,6 +37,10 @@ class startup implements Runnable
 		
 		gui();
 	}
+
+
+		
+	
 
 	private void gui() {
 		//Main bro = new Main();

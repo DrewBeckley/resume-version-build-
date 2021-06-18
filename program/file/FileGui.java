@@ -5,7 +5,7 @@ import java.util.*;
 import java.io.*;
 import java.awt.event.*;
 import java.util.stream.*;
-public class FileGui extends FileLogic implements ActionListener
+public class FileGui extends FileLogic implements ActionListener, MouseListener 
 {
 	//jframe,pane,pannels
 	private  JPanel fileS;
@@ -26,18 +26,40 @@ public class FileGui extends FileLogic implements ActionListener
 	int margin=10;
 	int ButtonY=253;
 	
-	
-	
+	//temp
+	public void mouseClicked(MouseEvent e) {
+	Point p = e.getPoint();
+	// or
+	int x = e.getX();
+	int y = e.getY();
+	System.out.println("X: "+x+"Y: "+y);
+	Save_Button.setLocation(x,y);
+	}
+
+	public void mouseEntered(MouseEvent e) {  
+       // System.out.println("Mouse Entered");  
+	}  
+	public void mouseExited(MouseEvent e) {  
+		//System.out.println("Mouse Exited");  
+	}  
+	public void mousePressed(MouseEvent e) {  
+		//System.out.println("Mouse Pressed");  
+	}  
+	public void mouseReleased(MouseEvent e) {  
+		//System.out.println("Mouse Released");  
+	}  
+		
 	public JPanel file_Make()
 	{
 		//System.out.println("start");
 		load_Entry();
 		fileS=new JPanel();
+		fileS.addMouseListener(this);
 		fileS.setLayout(null);
 		mainPage();
-		//from testing
+		//for testing
 		//selection=0;
-		//activeFile(0,true);
+		activeFile(0,true);
 		return fileS;
 	}
 
@@ -121,7 +143,7 @@ public class FileGui extends FileLogic implements ActionListener
 
 		// //button 1
 		Save_Button=new JButton("save");
-		Save_Button.setBounds(250,100 ,sizeX, sizeY);
+		Save_Button.setBounds(300,100 ,sizeX, sizeY);
 		
 		Save_Button.addActionListener(this);
 		fileS.add(Save_Button);
@@ -135,7 +157,11 @@ public class FileGui extends FileLogic implements ActionListener
 		//button 3
 		return_Button=new JButton("Back");
 		return_Button.setBounds(Save_Button.getX(),Save_Button.getY()-30 ,sizeX, sizeY);
-		return_Button.addActionListener((e->backToMenu()));
+		return_Button.addActionListener(e->{
+			fileS.removeAll();
+			fileS.repaint();
+			mainPage();
+		});
 		fileS.add(return_Button);
 		
 		
@@ -277,12 +303,7 @@ public class FileGui extends FileLogic implements ActionListener
 
 		
 	}
-	public void backToMenu()
-	{
-		fileS.removeAll();
-		fileS.repaint();
-		mainPage();
-	}
+	
 	
 	public void save_entry()
 	{
@@ -303,18 +324,12 @@ public class FileGui extends FileLogic implements ActionListener
 			listOfRecipeList=getStringAL(out,0);
 
 		//	System.out.println(getStringAL(out,0)+"is name(gui)");
-
-
-			//var content=SaveSystem.getStringArray(out,2);
-			
-
-			
 			listOfContentList=getStringAL(out,1);
 			//System.out.println(getStringAL(out,1)+"is content(giu)");
 			//.addAll(Arrays.asList(content));
-			//throw new RuntimeException("here what you want");
+			
 		}catch(NullPointerException e){
-			//System.out.println(e+" in loading in file(gui)");
+			System.out.println(e+" in loading in file(gui)");
 			
 			//System.out.println(listOfContentList+" before");
 			
@@ -322,7 +337,7 @@ public class FileGui extends FileLogic implements ActionListener
 		
 		//listOfContentList.add("an error has ocured in the load prosses ");
 		//listOfRecipeList.remove(0);
-		throw new RuntimeException("loading had an error in file(gui)");
+		//throw new RuntimeException("loading had an error in file(gui)");
 		//System.out.println(listOfRecipeList);
 			
 			//save(listOfContentList,listOfRecipeList);

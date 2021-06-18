@@ -24,7 +24,7 @@ class Main
 		
 		
 		//System.out.println(
-			Thread.currentThread().setPriority(10);
+			//Thread.currentThread().setPriority(10);
 			//);
 		//System.out.println(Thread.currentThread().getName());
 		
@@ -44,11 +44,11 @@ class Main
 		
 		
 		
-		//app.start();
+		app.start();
 		
 		
 		
-		oldInv.start();
+		//oldInv.start();
 		
 		
 		throw new RuntimeException("All good,This is stop the main thread from any data race condion");

@@ -43,7 +43,7 @@ public class FileLogic
 			System.out.println("Error in save");
 			System.out.println(ex);
 		}finally{
-			System.out.println("done reading");
+			System.out.println("done saving");
 		};
 		
 	}
