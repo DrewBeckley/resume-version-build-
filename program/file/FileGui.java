@@ -34,6 +34,11 @@ public class FileGui extends FileLogic implements ActionListener, MouseListener
 	int y = e.getY();
 	System.out.println("X: "+x+"Y: "+y);
 	Save_Button.setLocation(x,y);
+	
+	fileS.revalidate();
+	rename_Button.repaint();
+	fileS.repaint();
+
 	}
 
 	public void mouseEntered(MouseEvent e) {  
@@ -54,7 +59,9 @@ public class FileGui extends FileLogic implements ActionListener, MouseListener
 		//System.out.println("start");
 		load_Entry();
 		fileS=new JPanel();
+		if(false){
 		fileS.addMouseListener(this);
+		}
 		fileS.setLayout(null);
 		mainPage();
 		//for testing
@@ -316,18 +323,10 @@ public class FileGui extends FileLogic implements ActionListener, MouseListener
 	{
 		try{
 			var out=super.load();
-			//System.out.println(out.getClass());
 			//out.forEach((i,j)->System.out.println(i+": "+
 			//Arrays.stream(j).peek(p->System.out.println(p)).collect(Collectors.joining(","))));
-			//var 
-			//name=SaveSystem.getStringArray(out,1);
 			listOfRecipeList=getStringAL(out,0);
-
-		//	System.out.println(getStringAL(out,0)+"is name(gui)");
 			listOfContentList=getStringAL(out,1);
-			//System.out.println(getStringAL(out,1)+"is content(giu)");
-			//.addAll(Arrays.asList(content));
-			
 		}catch(NullPointerException e){
 			System.out.println(e+" in loading in file(gui)");
 			
